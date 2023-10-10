@@ -1,0 +1,29 @@
+name: Docker Image to Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Pull Docker Image
+        run: |
+          docker pull srini1000/streamlit
+        env:
+          DOCKER_CLI_AKAMAI_CLI=1  # Required to authenticate with Docker Hub
+
+      - name: Save Docker Image as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: /var/lib/docker/image
+
