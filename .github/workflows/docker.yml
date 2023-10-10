@@ -26,12 +26,6 @@ jobs:
           mkdir -p artifacts
           docker save -o ./artifacts/streamlit.tar srini1000/streamlit:latest
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: your-image-artifact
-          path: ./artifacts/your-image-name.tar
-
 
 
 
